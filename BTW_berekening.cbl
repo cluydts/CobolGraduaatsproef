@@ -17,5 +17,22 @@
            display "21 - 21%"
            accept BTW-TARIEF
 
-           if BTW-TARIEF 
+           evaluate BTW-TARIEF
+            when 6
+               compute BTW-BEDRAG = ORIGINELE-PRIJS * 0.06
+            when 12
+               compute BTW-BEDRAG = ORIGINELE-PRIJS * 0.12
+            when 21
+               compute BTW-BEDRAG = ORIGINELE-PRIJS * 0.21
+            when other
+               display "Geen van de gekozen tarieven gekozen."
+               stop run.
+           end-evaluate.
+
+            compute TOTAAL-BEDRAG = ORIGINELE-PRIJS + BTW-BEDRAG.
+           display "gegeven bedrag: " ORIGINELE-PRIJS.
+           display "btw-tarief: " BTW-TARIEF.
+           display "totaal bedrag" TOTAAL-BEDRAG.
+
+           stop run.
            
