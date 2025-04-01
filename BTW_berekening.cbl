@@ -6,6 +6,11 @@
            01 BTW-TARIEF pic 9(2).
            01 BTW-BEDRAG pic 9(5)V99.
            01 TOTAAL-BEDRAG pic 9(7)V99.
+           
+           01 DISPLAY-ORIGINELE-PRIJS pic Z(6).ZZ.
+           01 DISPLAY-BTW-TARIEF pic Z(2).
+           01 DISPLAY-BTW-BEDRAG pic Z(5).ZZ.
+           01 DISPLAY-TOTAAL-BEDRAG pic Z(7).ZZ.
 
            procedure division.
            display "Voer een bedrag in (zonder BTW): "
@@ -30,9 +35,16 @@
            end-evaluate.
 
             compute TOTAAL-BEDRAG = ORIGINELE-PRIJS + BTW-BEDRAG.
-           display "gegeven bedrag: " ORIGINELE-PRIJS.
-           display "btw-tarief: " BTW-TARIEF.
-           display "totaal bedrag" TOTAAL-BEDRAG.
+
+           move ORIGINELE-PRIJS to DISPLAY-ORIGINELE-PRIJS.
+           move BTW-TARIEF to DISPLAY-BTW-TARIEF.
+           move BTW-BEDRAG to DISPLAY-BTW-BEDRAG.
+           move TOTAAL-BEDRAG to DISPLAY-TOTAAL-BEDRAG.
+
+           display "Gegeven bedrag: " DISPLAY-ORIGINELE-PRIJS.
+           display "BTW-tarief: " DISPLAY-BTW-TARIEF.
+           display "BTW-bedrag: " DISPLAY-BTW-BEDRAG
+           display "Totaal bedrag" DISPLAY-TOTAAL-BEDRAG.
 
            stop run.
            
