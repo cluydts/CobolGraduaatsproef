@@ -2,20 +2,20 @@
            program-id. BTW-PROGRAM.
            data division.
            working-storage section.
-           01 ORIGINELE-PRIJS pic9(6)V(2).
-           01 BTW-TARIEF pic9(2).
-           01 BTW-BEDRAG pic9(5)V(2).
-           01 TOTAAL-BEDRAG pic9(7)V(2).
+           01 ORIGINELE-PRIJS pic 9(6)V99.
+           01 BTW-TARIEF pic 9(2).
+           01 BTW-BEDRAG pic 9(5)V99.
+           01 TOTAAL-BEDRAG pic 9(7)V99.
 
            procedure division.
            display "Voer een bedrag in (zonder BTW): "
-           accept ORIGINELE-PRIJS
+           accept ORIGINELE-PRIJS.
 
            display "Kies een btw-percentage:"
            display "6 - 6%"
            display "12 - 12%"
            display "21 - 21%"
-           accept BTW-TARIEF
+           accept BTW-TARIEF.
 
            evaluate BTW-TARIEF
             when 6
@@ -25,8 +25,8 @@
             when 21
                compute BTW-BEDRAG = ORIGINELE-PRIJS * 0.21
             when other
-               display "Geen van de gekozen tarieven gekozen."
-               stop run.
+               display "Niet één van de tarieven gekozen."
+               stop run
            end-evaluate.
 
             compute TOTAAL-BEDRAG = ORIGINELE-PRIJS + BTW-BEDRAG.
