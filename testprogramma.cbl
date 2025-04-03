@@ -15,11 +15,11 @@
            01 EOF-Flag PIC 9 VALUE 0.
 
            FD Uitvoerbestand.
-           01 UitvoerRegel PIC X(35).
+           01 UitvoerRegel PIC X(36).
   
            working-storage section.
            01 Geconverteerd-Getal pic 9(5).
-           01 Resultaat pic 9(5).
+           01 Resultaat pic Z(5).
 
            procedure division.
            open input Invoerbestand.

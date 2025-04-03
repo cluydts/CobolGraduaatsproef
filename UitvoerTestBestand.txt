@@ -1,2 +1,2 @@
-Origineel: 5     | verdubbeld: 0001
-Origineel: 18    | verdubbeld: 0003
+Origineel: 5     | verdubbeld:    10
+Origineel: 18    | verdubbeld:    36
