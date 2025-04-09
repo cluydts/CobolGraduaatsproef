@@ -1,5 +1,12 @@
        IDENTIFICATION DIVISION.
            PROGRAM-ID. SalarisBerekening.
+           environment division.
+              input-output section.
+                file-control.
+                    select input-file assign to "input.txt"
+                        organization is line sequential.
+                    select output-file assign to "output.txt"
+                        organization is line sequential.
 
        DATA DIVISION.
        WORKING-STORAGE SECTION.
