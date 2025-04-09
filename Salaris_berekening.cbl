@@ -9,23 +9,49 @@
                         organization is line sequential.
 
        DATA DIVISION.
+       
+              FILE SECTION.
+              FD input-file.
+              01 input-record.
+                05 naam PIC X(30).
+                05 type-werknemer PIC X.
+                05 brutoloon PIC 9(5)V99.
+    
+              FD output-file.
+              01 output-record.
+                05 naam-out PIC X(30).
+                05 brutoloon-out PIC 9(5)V99.
+                05 rsz-out PIC 9(5)V99.
+                05 voorheffing-out PIC 9(5)V99.
+                05 netto-out PIC 9(5)V99.
+
        WORKING-STORAGE SECTION.
-           01 Naam PIC X(30).
-           01 TypeWerknemer PIC X.
-           01 Brutoloon PIC 9(5)V99.
+   
            01 RSZ PIC 9(5)V99.
            01 Voorheffing PIC 9(5)V99.
            01 NettoLoon PIC 9(5)V99.
     
        PROCEDURE DIVISION.
-           DISPLAY "Geef de naam van de werknemer:".
-           ACCEPT Naam.
+              OPEN INPUT input-file
+                OPEN OUTPUT output-file
+                PERFORM UNTIL input-file = "EOF"
+                    READ input-file INTO input-record
+                        AT END
+                            MOVE "EOF" TO input-file
+                        NOT AT END
+                            MOVE naam TO Naam
+                            MOVE type-werknemer TO TypeWerknemer
+                            MOVE brutoloon TO Brutoloon
+                        END-READ
 
-           DISPLAY "Type werknemer (B voor bediende, A voor arbeider):".
-           ACCEPT TypeWerknemer.
+                    IF TypeWerknemer = "A"
+                        COMPUTE RSZ = Brutoloon * 0.1307
+                    ELSE IF TypeWerknemer = "B"
+                        COMPUTE RSZ = Brutoloon * 0.1307
+                    ELSE IF TypeWerknemer = "C"
+                        COMPUTE RSZ = Brutoloon * 0.1307
+                    END-IF.
 
-           DISPLAY "Geef het brutoloon:".
-           ACCEPT Brutoloon.
 
            COMPUTE RSZ = Brutoloon * 0.1307.
 
@@ -40,13 +66,5 @@
            end-if.
 
            COMPUTE NettoLoon = Brutoloon - RSZ - Voorheffing.
-
-           DISPLAY "----------------------------------------".
-           DISPLAY "Naam: " Naam.
-           DISPLAY "Bruto: " Brutoloon.
-           DISPLAY "RSZ: " RSZ.
-           DISPLAY "Voorheffing: " Voorheffing.
-           DISPLAY "Netto: " NettoLoon.
-           DISPLAY "----------------------------------------".
 
            STOP RUN.
