@@ -67,4 +67,16 @@
 
            COMPUTE NettoLoon = Brutoloon - RSZ - Voorheffing.
 
+              MOVE Naam TO naam-out
+                MOVE Brutoloon TO brutoloon-out
+                MOVE RSZ TO rsz-out
+                MOVE Voorheffing TO voorheffing-out
+                MOVE NettoLoon TO netto-out
+                WRITE output-record
+                    END-WRITE
+                END-PERFORM
+                CLOSE input-file
+                CLOSE output-file
+                DISPLAY "Salarisberekening voltooid."
+
            STOP RUN.
