@@ -13,13 +13,19 @@
        file section.
            FD input-file.
             01 Leesregel pic x(80).
+
            FD output-file.
-           01  CAPITAL-OUT PIC 9(8)V99.
-           01  RATE-OUT PIC 9(2)V99.
-           01  Years-OUT PIC 9(2).
-           01  INTEREST-OUT PIC 9(8)V99.
+           01  CAPITAL-OUT PIC X(10).
+           01  RATE-OUT PIC X(4).
+           01  Years-OUT PIC x(2).
+           01  INTEREST-OUT PIC x(10).
 
            01 EOF-Flag PIC 9 VALUE 0.
+
+            01  CAPITAL-F PIC Z(8).99.
+           01  RATE-F PIC Z(2).99.
+        *>    01  Years-F PIC 9(2).
+           01  INTEREST-F PIC Z(8).99.
 
               
        WORKING-STORAGE SECTION.
@@ -33,6 +39,8 @@
            01  CAPITAL-N PIC 9(8)V99.
            01  RATE-N PIC 9(2)V99.
            01  Years-N PIC 9(2).
+
+          
 
 
        PROCEDURE DIVISION.
@@ -55,16 +63,15 @@
                COMPUTE INTEREST = (CAPITAL-N * RATE-N * Years-N) / 100
                COMPUTE TOTAL-AMOUNT = CAPITAL-N + INTEREST
 
-               move CAPITAL-N to CAPITAL-OUT
-                move RATE-N to RATE-OUT
-                move Years-N to Years-OUT
-                move INTEREST to INTEREST-OUT
-                
+                move CAPITAL-N to CAPITAL-F
+                move RATE-N to RATE-F
+                move Years-N to Years-out
+                move INTEREST to INTEREST-F
 
-               write CAPITAL-OUT
-               write RATE-OUT
-               write Years-OUT
-               write INTEREST
+                write CAPITAL-F
+                write RATE-F
+                write Years-out
+                write INTEREST-F
 
            END-READ
 
