@@ -1,11 +1,11 @@
        IDENTIFICATION DIVISION.
        PROGRAM-ID. RENTE-BEREKENING.
-
+       environment division.
        input-output section.
            file-control.
-               select input-file assign to "input.txt"
+               select input-file assign to "Inputfile.csv"
                    organization is line sequential.
-               select output-file assign to "output.txt"
+               select output-file assign to "Outputfile.csv"
                    organization is line sequential.
 
 
@@ -19,12 +19,14 @@
            01  Years-OUT PIC 9(2).
            01  INTEREST-OUT PIC 9(8)V99.
 
+           01 EOF-Flag PIC 9 VALUE 0.
+
               
        WORKING-STORAGE SECTION.
           
            01  TOTAL-AMOUNT PIC 9(8)V99.
-           01  CAPITAL PIC x(10)V99.
-           01  RATE PIC x(4)V99.
+           01  CAPITAL PIC x(10).
+           01  RATE PIC x(4).
            01  Years PIC x(2).
            01  INTEREST PIC 9(8)V99.
 
@@ -38,10 +40,10 @@
            OPEN INPUT input-file
            OPEN OUTPUT output-file
            READ input-file INTO Leesregel
-           PERFORM UNTIL input-file = "EOF"
-               READ input-file INTO input-record
+           PERFORM UNTIL EOF-Flag = 1
+              read input-file INTO Leesregel
            AT END
-               MOVE "EOF" TO input-file
+               MOVE 1 to EOF-Flag
            NOT AT END
                UNSTRING Leesregel DELIMITED BY ","
                    INTO CAPITAL RATE Years
@@ -53,6 +55,12 @@
                COMPUTE INTEREST = (CAPITAL-N * RATE-N * Years-N) / 100
                COMPUTE TOTAL-AMOUNT = CAPITAL-N + INTEREST
 
+               move CAPITAL-N to CAPITAL-OUT
+                move RATE-N to RATE-OUT
+                move Years-N to Years-OUT
+                move INTEREST to INTEREST-OUT
+                
+
                write CAPITAL-OUT
                write RATE-OUT
                write Years-OUT
@@ -60,7 +68,7 @@
 
            END-READ
 
-           WRITE output-file FROM output-record
-
            END-PERFORM.
+           close input-file.
+              close output-file.
            STOP RUN.
