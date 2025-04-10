@@ -48,9 +48,9 @@
                    INTO CAPITAL-S RATE-S Years-S
                END-UNSTRING
     
-               MOVE function numval(CAPITAL-S) TO CAPITAL-N
-               MOVE function numval(RATE-S) TO RATE-N
-               MOVE function numval(Years-S) TO Years-N
+           MOVE function numval-c(function trim(CAPITAL-S)) TO CAPITAL-N
+           MOVE function numval-c(function trim(RATE-S)) TO RATE-N
+           MOVE function numval-c(function trim(Years-S)) TO Years-N
                
                COMPUTE INTEREST = (CAPITAL-N * RATE-N * Years-N) / 100
                COMPUTE TOTAL-AMOUNT-S = CAPITAL-N + INTEREST
