@@ -13,12 +13,12 @@
        file section.
            FD input-file.
             01 Leesregel pic x(80).
-    
            FD output-file.
            01  CAPITAL-OUT PIC 9(8)V99.
            01  RATE-OUT PIC 9(2)V99.
            01  Years-OUT PIC 9(2).
            01  INTEREST-OUT PIC 9(8)V99.
+
               
        WORKING-STORAGE SECTION.
           
@@ -46,8 +46,14 @@
                MOVE function numval(CAPITAL) TO CAPITAL-OUT
                MOVE function numval(RATE) TO RATE-OUT
                MOVE function numval(Years) TO Years-OUT
-               COMPUTE INTEREST = (CAPITAL * RATE * Years) / 100.
-               COMPUTE TOTAL-AMOUNT = CAPITAL + INTEREST.
+               COMPUTE INTEREST = (CAPITAL-OUT * RATE-OUT * Years-OUT) / 100
+               COMPUTE TOTAL-AMOUNT = CAPITAL-OUT + INTEREST
+
+               write CAPITAL-OUT
+               write RATE-OUT
+               write Years-OUT
+               write INTEREST
+
            END-READ
 
            WRITE output-file FROM output-record
