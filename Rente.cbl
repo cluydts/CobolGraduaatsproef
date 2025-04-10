@@ -23,10 +23,14 @@
        WORKING-STORAGE SECTION.
           
            01  TOTAL-AMOUNT PIC 9(8)V99.
-           01  CAPITAL PIC 9(8)V99.
-           01  RATE PIC 9(2)V99.
-           01  Years PIC 9(2).
+           01  CAPITAL PIC x(10)V99.
+           01  RATE PIC x(4)V99.
+           01  Years PIC x(2).
            01  INTEREST PIC 9(8)V99.
+
+           01  CAPITAL-N PIC 9(8)V99.
+           01  RATE-N PIC 9(2)V99.
+           01  Years-N PIC 9(2).
 
 
        PROCEDURE DIVISION.
@@ -43,11 +47,11 @@
                    INTO CAPITAL RATE Years
                END-UNSTRING
     
-               MOVE function numval(CAPITAL) TO CAPITAL-OUT
-               MOVE function numval(RATE) TO RATE-OUT
-               MOVE function numval(Years) TO Years-OUT
-               COMPUTE INTEREST = (CAPITAL-OUT * RATE-OUT * Years-OUT) / 100
-               COMPUTE TOTAL-AMOUNT = CAPITAL-OUT + INTEREST
+               MOVE function numval(CAPITAL) TO CAPITAL-N
+               MOVE function numval(RATE) TO RATE-N
+               MOVE function numval(Years) TO Years-N
+               COMPUTE INTEREST = (CAPITAL-N * RATE-N * Years-N) / 100
+               COMPUTE TOTAL-AMOUNT = CAPITAL-N + INTEREST
 
                write CAPITAL-OUT
                write RATE-OUT
