@@ -33,11 +33,11 @@
 
            procedure division.
 
-               open inpite input-file
+               open input input-file
                open output output-file
                read input-file into LEESREGEL
 
-               perfom until EOF-Flag = 1
+               perform until EOF-Flag = 1
                   read input-file into LEESREGEL
                   at end 
                   move 1 to EOF-Flag
@@ -60,15 +60,15 @@
             when other
                display "geen geldig tarief gebruikt."
                stop run
-           end-evaluate.
+           end-evaluate
 
-           compute TOTAAL-BEDRAG = ORIGINELE-PRIJS + BTW-BEDRAG.
+           compute TOTAAL-BEDRAG = ORIGINELE-PRIJS + BTW-BEDRAG
 
-           move ORIGINELE-PRIJS to DISPLAY-ORIGINELE-PRIJS.
-           move BTW-TARIEF to DISPLAY-BTW-TARIEF.
-           move BTW-BEDRAG to DISPLAY-BTW-BEDRAG.
-           move TOTAAL-BEDRAG to DISPLAY-TOTAAL-BEDRAG.
-           
+           move ORIGINELE-PRIJS to DISPLAY-ORIGINELE-PRIJS
+           move BTW-TARIEF to DISPLAY-BTW-TARIEF
+           move BTW-BEDRAG to DISPLAY-BTW-BEDRAG
+           move TOTAAL-BEDRAG to DISPLAY-TOTAAL-BEDRAG
+
               string
                   DISPLAY-ORIGINELE-PRIJS delimited by size
                   "," delimited by size
@@ -79,10 +79,13 @@
                   DISPLAY-TOTAAL-BEDRAG delimited by size
                   into OUTPUT-REGEL
 
-           end read
-           end perform 
-           close input-file
-           close output-file
+                  write OUTPUT-REGEL
+
+           end-read
+           end-perform .
+
+           close input-file.
+           close output-file.
 
            stop run.
            
