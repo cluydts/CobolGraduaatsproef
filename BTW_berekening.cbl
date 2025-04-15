@@ -11,9 +11,14 @@
 
               file section.
            fd input-file.
+           01 LEESREGEL pic x(80).
 
            01 ORIGINELE-PRIJS-S pic X(8).
            01 BTW-TARIEF-S pic x(2).
+
+           fd output-file.
+           01 OUTPUT-REGEL pic x(80).
+           01  EOF-Flag PIC X(1) VALUE "0".
 
            working-storage section.
            01 ORIGINELE-PRIJS pic 9(6)V99.
@@ -30,7 +35,20 @@
 
                open inpite input-file
                open output output-file
-               read input-file into 
+               read input-file into LEESREGEL
+
+               perfom until EOF-Flag = 1
+                  read input-file into LEESREGEL
+                  at end 
+                  move 1 to EOF-Flag
+                  not at end 
+                        unstring LEESREGEL delimited by ","
+                            into ORIGINELE-PRIJS-S BTW-TARIEF-S
+                        end-unstring
+          
+
+           MOVE function numval-c(function trim(ORIGINELE-PRIJS-S)) TO ORIGINELE-PRIJS
+           MOVE function numval-c(function trim(BTW-TARIEF-S)) TO BTW-TARIEF
 
            evaluate BTW-TARIEF
             when 6
@@ -40,21 +58,31 @@
             when 21
                compute BTW-BEDRAG = ORIGINELE-PRIJS * 0.21
             when other
-               display "Niet één van de tarieven gekozen."
+               display "geen geldig tarief gebruikt."
                stop run
            end-evaluate.
 
-            compute TOTAAL-BEDRAG = ORIGINELE-PRIJS + BTW-BEDRAG.
+           compute TOTAAL-BEDRAG = ORIGINELE-PRIJS + BTW-BEDRAG.
 
            move ORIGINELE-PRIJS to DISPLAY-ORIGINELE-PRIJS.
            move BTW-TARIEF to DISPLAY-BTW-TARIEF.
            move BTW-BEDRAG to DISPLAY-BTW-BEDRAG.
            move TOTAAL-BEDRAG to DISPLAY-TOTAAL-BEDRAG.
+           
+              string
+                  DISPLAY-ORIGINELE-PRIJS delimited by size
+                  "," delimited by size
+                  DISPLAY-BTW-TARIEF delimited by size
+                  "," delimited by size
+                  DISPLAY-BTW-BEDRAG delimited by size
+                  "," delimited by size
+                  DISPLAY-TOTAAL-BEDRAG delimited by size
+                  into OUTPUT-REGEL
 
-           display "Gegeven bedrag: " DISPLAY-ORIGINELE-PRIJS.
-           display "BTW-tarief: " DISPLAY-BTW-TARIEF.
-           display "BTW-bedrag: " DISPLAY-BTW-BEDRAG
-           display "Totaal bedrag" DISPLAY-TOTAAL-BEDRAG.
+           end read
+           end perform 
+           close input-file
+           close output-file
 
            stop run.
            
