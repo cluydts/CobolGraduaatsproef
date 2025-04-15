@@ -38,7 +38,7 @@
            OPEN INPUT input-file
            OPEN OUTPUT output-file
            READ input-file INTO Leesregel
-
+           
            PERFORM UNTIL EOF-Flag = 1
               read input-file INTO Leesregel
            AT END

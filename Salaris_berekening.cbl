@@ -3,9 +3,9 @@
            environment division.
               input-output section.
                 file-control.
-                    select input-file assign to "input.txt"
+                    select input-file assign to "input.csv"
                         organization is line sequential.
-                    select output-file assign to "output.txt"
+                    select output-file assign to "output.csv"
                         organization is line sequential.
 
        DATA DIVISION.

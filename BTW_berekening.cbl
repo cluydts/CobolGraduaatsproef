@@ -1,6 +1,20 @@
            identification division.
            program-id. BTW-PROGRAM.
+           environment division.
+              input-output section.
+                file-control.
+                     select input-file assign to "BTW-Input.csv"
+                         organization is line sequential.
+                     select output-file assign to "BTW-Output.csv"
+                         organization is line sequential.
            data division.
+
+              file section.
+           fd input-file.
+
+           01 ORIGINELE-PRIJS-S pic X(8).
+           01 BTW-TARIEF-S pic x(2).
+
            working-storage section.
            01 ORIGINELE-PRIJS pic 9(6)V99.
            01 BTW-TARIEF pic 9(2).
@@ -13,14 +27,10 @@
            01 DISPLAY-TOTAAL-BEDRAG pic Z(7).ZZ.
 
            procedure division.
-           display "Voer een bedrag in (zonder BTW): "
-           accept ORIGINELE-PRIJS.
 
-           display "Kies een btw-percentage:"
-           display "6 - 6%"
-           display "12 - 12%"
-           display "21 - 21%"
-           accept BTW-TARIEF.
+               open inpite input-file
+               open output output-file
+               read input-file into 
 
            evaluate BTW-TARIEF
             when 6
