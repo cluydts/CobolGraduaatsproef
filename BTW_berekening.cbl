@@ -36,19 +36,28 @@
                open input input-file
                open output output-file
                read input-file into LEESREGEL
+               
+               display "LEESREGEL: " LEESREGEL
 
-               perform until EOF-Flag = 1
+               perform until EOF-Flag = "1"
                   read input-file into LEESREGEL
                   at end 
-                  move 1 to EOF-Flag
+                  move "1" to EOF-Flag
                   not at end 
-                        unstring LEESREGEL delimited by ","
-                            into ORIGINELE-PRIJS-S BTW-TARIEF-S
+                     display "LEESREGEL: " LEESREGEL
+                        UNSTRING function trim(LEESREGEL)
+                           DELIMITED BY ","
+                           INTO ORIGINELE-PRIJS-S BTW-TARIEF-S
                         end-unstring
           
+           display "ORIGINELE-PRIJS-S: " ORIGINELE-PRIJS-S
+            display "BTW-TARIEF-S: " BTW-TARIEF-S
 
            MOVE function numval-c(function trim(ORIGINELE-PRIJS-S)) TO ORIGINELE-PRIJS
            MOVE function numval-c(function trim(BTW-TARIEF-S)) TO BTW-TARIEF
+
+           display "ORIGINELE-PRIJS: " ORIGINELE-PRIJS
+           display "BTW-TARIEF: " BTW-TARIEF
 
            evaluate BTW-TARIEF
             when 6
