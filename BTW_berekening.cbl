@@ -18,6 +18,7 @@
            fd output-file.
            01 OUTPUT-REGEL pic x(80).
            01  EOF-Flag PIC X(1) VALUE "0".
+           01 OUTPUT-REGEL-LEN   PIC 9(2).
 
            working-storage section.
            01 ORIGINELE-PRIJS pic 9(6)V99.
@@ -92,7 +93,7 @@
                   "," delimited by size
                   DISPLAY-TOTAAL-BEDRAG delimited by size
                   into OUTPUT-REGEL
-
+                  with pointer OUTPUT-REGEL-LEN
                   write OUTPUT-REGEL
 
            end-read
