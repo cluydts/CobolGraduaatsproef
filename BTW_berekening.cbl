@@ -45,7 +45,7 @@
                   move "1" to EOF-Flag
                   not at end 
                      display "LEESREGEL: " LEESREGEL
-                        UNSTRING function trim(LEESREGEL)
+                        UNSTRING LEESREGEL
                            DELIMITED BY ","
                                        or " "
                                        or ", "
