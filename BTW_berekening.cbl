@@ -47,14 +47,17 @@
                      display "LEESREGEL: " LEESREGEL
                         UNSTRING function trim(LEESREGEL)
                            DELIMITED BY ","
-                           INTO ORIGINELE-PRIJS-S BTW-TARIEF-S
+                                       or " "
+                                       or ", "
+                           INTO ORIGINELE-PRIJS-S 
+                                BTW-TARIEF-S
                         end-unstring
           
            display "ORIGINELE-PRIJS-S: " ORIGINELE-PRIJS-S
             display "BTW-TARIEF-S: " BTW-TARIEF-S
 
            MOVE function numval-c(function trim(ORIGINELE-PRIJS-S)) TO ORIGINELE-PRIJS
-           MOVE function numval-c(function trim(BTW-TARIEF-S)) TO BTW-TARIEF
+           MOVE function numval(function trim(BTW-TARIEF-S)) TO BTW-TARIEF
 
            display "ORIGINELE-PRIJS: " ORIGINELE-PRIJS
            display "BTW-TARIEF: " BTW-TARIEF
