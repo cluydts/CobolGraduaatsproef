@@ -11,12 +11,12 @@
 
               file section.
            fd input-file.
-           01 LEESREGEL pic x(80).
+           01 LEESREGEL pic x(30).
 
         
 
            fd output-file.
-           01 OUTPUT-REGEL pic x(80).
+           01 OUTPUT-REGEL pic x(30).
            01  EOF-Flag PIC X(1) VALUE "0".
            01 OUTPUT-REGEL-LEN   PIC 9(2).
 
@@ -39,6 +39,7 @@
                open input input-file
                open output output-file
                read input-file into LEESREGEL
+              
                
                display "LEESREGEL: " LEESREGEL
 
@@ -64,6 +65,7 @@
 
            display "ORIGINELE-PRIJS: " ORIGINELE-PRIJS
            display "BTW-TARIEF: " BTW-TARIEF
+           display " "
 
            evaluate BTW-TARIEF
             when 6
@@ -84,17 +86,25 @@
            move BTW-BEDRAG to DISPLAY-BTW-BEDRAG
            move TOTAAL-BEDRAG to DISPLAY-TOTAAL-BEDRAG
 
+             display "DISPLAY-ORIGINELE-PRIJS: " DISPLAY-ORIGINELE-PRIJS
+             display "DISPLAY-BTW-TARIEF: " DISPLAY-BTW-TARIEF
+             display "DISPLAY-BTW-BEDRAG: " DISPLAY-BTW-BEDRAG
+             display "DISPLAY-TOTAAL-BEDRAG: " DISPLAY-TOTAAL-BEDRAG
+             display " "
+
               string
-                  DISPLAY-ORIGINELE-PRIJS delimited by size
+                  function trim(DISPLAY-ORIGINELE-PRIJS) delimited by size
                   "," delimited by size
-                  DISPLAY-BTW-TARIEF delimited by size
+                 function trim(DISPLAY-BTW-TARIEF) delimited by size
                   "," delimited by size
-                  DISPLAY-BTW-BEDRAG delimited by size
+                 function trim(DISPLAY-BTW-BEDRAG) delimited by size
                   "," delimited by size
-                  DISPLAY-TOTAAL-BEDRAG delimited by size
+                function trim(DISPLAY-TOTAAL-BEDRAG) delimited by size
                   into OUTPUT-REGEL
                  
                   write OUTPUT-REGEL
+                  display "OUTPUT-REGEL: " OUTPUT-REGEL
+           display "---------------------------------------------------"
 
            end-read
            end-perform .
