@@ -28,6 +28,7 @@
            01  CAPITAL-S PIC x(10).
            01  RATE-S PIC x(4).
            01  Years-S PIC x(2).
+           01 INTEREST-S PIC x(10).
            01  INTEREST PIC 9(8)V99.
            01  CAPITAL-N PIC 9(8)V99.
            01  RATE-N PIC 9(2)V99.
@@ -60,7 +61,8 @@
                COMPUTE INTEREST = (CAPITAL-N * RATE-N * Years-N) / 100
                COMPUTE TOTAL-AMOUNT-S = CAPITAL-N + INTEREST
 
-               move INTEREST to INTEREST-F
+                   move INTEREST to INTEREST-S 
+                DISPLAY "Interest: " INTEREST-S
 
                 string
                       CAPITAL-S delimited by size
@@ -69,8 +71,9 @@
                         "," delimited by size
                         Years-S delimited by size
                         "," delimited by size
-                        INTEREST-F delimited by size
+                        *> INTEREST-F delimited by size
                        into Output-Regel
+                    *>    display "Output-Regel: " Output-Regel
 
                        write Output-Regel
            END-READ

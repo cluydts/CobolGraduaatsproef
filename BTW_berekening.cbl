@@ -13,8 +13,7 @@
            fd input-file.
            01 LEESREGEL pic x(80).
 
-           01 ORIGINELE-PRIJS-S pic X(8).
-           01 BTW-TARIEF-S pic x(2).
+        
 
            fd output-file.
            01 OUTPUT-REGEL pic x(80).
@@ -25,6 +24,9 @@
            01 BTW-TARIEF pic 9(2).
            01 BTW-BEDRAG pic 9(5)V99.
            01 TOTAAL-BEDRAG pic 9(7)V99.
+
+           01 ORIGINELE-PRIJS-S pic X(8).
+           01 BTW-TARIEF-S pic x(2).
            
            01 DISPLAY-ORIGINELE-PRIJS pic Z(6).ZZ.
            01 DISPLAY-BTW-TARIEF pic Z(2).
@@ -50,13 +52,11 @@
                                        or " "
                                        or ", "
                            INTO ORIGINELE-PRIJS-S 
-                         display "ORIGINELE-PRIJS-S: " ORIGINELE-PRIJS-S
                                 BTW-TARIEF-S
-                         display "BTW-TARIEF-S: " BTW-TARIEF-S
-
                         end-unstring
           
-           
+           display "ORIGINELE-PRIJS-S: " ORIGINELE-PRIJS-S
+            display "BTW-TARIEF-S: " BTW-TARIEF-S
 
            MOVE function numval-c(function trim(ORIGINELE-PRIJS-S)) TO ORIGINELE-PRIJS
            MOVE function numval(function trim(BTW-TARIEF-S)) TO BTW-TARIEF
