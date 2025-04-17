@@ -93,7 +93,7 @@
                   "," delimited by size
                   DISPLAY-TOTAAL-BEDRAG delimited by size
                   into OUTPUT-REGEL
-                  with pointer OUTPUT-REGEL-LEN
+                 
                   write OUTPUT-REGEL
 
            end-read
