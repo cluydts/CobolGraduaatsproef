@@ -45,16 +45,18 @@
                   move "1" to EOF-Flag
                   not at end 
                      display "LEESREGEL: " LEESREGEL
-                        UNSTRING LEESREGEL
+                        UNSTRING function trim(LEESREGEL)
                            DELIMITED BY ","
                                        or " "
                                        or ", "
                            INTO ORIGINELE-PRIJS-S 
+                         display "ORIGINELE-PRIJS-S: " ORIGINELE-PRIJS-S
                                 BTW-TARIEF-S
+                         display "BTW-TARIEF-S: " BTW-TARIEF-S
+
                         end-unstring
           
-           display "ORIGINELE-PRIJS-S: " ORIGINELE-PRIJS-S
-            display "BTW-TARIEF-S: " BTW-TARIEF-S
+           
 
            MOVE function numval-c(function trim(ORIGINELE-PRIJS-S)) TO ORIGINELE-PRIJS
            MOVE function numval(function trim(BTW-TARIEF-S)) TO BTW-TARIEF

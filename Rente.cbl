@@ -41,12 +41,17 @@
            
            PERFORM UNTIL EOF-Flag = 1
               read input-file INTO Leesregel
+            
            AT END
                MOVE 1 to EOF-Flag
            NOT AT END
+             display "Leesregel: " Leesregel
                UNSTRING Leesregel DELIMITED BY ","
                    INTO CAPITAL-S RATE-S Years-S
                END-UNSTRING
+                DISPLAY "Capital: " CAPITAL-S
+                DISPLAY "Rate: " RATE-S
+                DISPLAY "Years: " Years-S
     
            MOVE function numval-c(function trim(CAPITAL-S)) TO CAPITAL-N
            MOVE function numval-c(function trim(RATE-S)) TO RATE-N
