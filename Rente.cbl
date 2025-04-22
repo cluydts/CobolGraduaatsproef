@@ -53,16 +53,24 @@
                 DISPLAY "Capital: " CAPITAL-S
                 DISPLAY "Rate: " RATE-S
                 DISPLAY "Years: " Years-S
+                display "------------------"
     
            MOVE function numval-c(function trim(CAPITAL-S)) TO CAPITAL-N
            MOVE function numval-c(function trim(RATE-S)) TO RATE-N
            MOVE function numval-c(function trim(Years-S)) TO Years-N
-               
+                   
+              DISPLAY "Capital-N: " CAPITAL-N
+                DISPLAY "Rate-N: " RATE-N
+                DISPLAY "Years-N: " Years-N
+                display "------------------"
+
                COMPUTE INTEREST = (CAPITAL-N * RATE-N * Years-N) / 100
                COMPUTE TOTAL-AMOUNT-S = CAPITAL-N + INTEREST
+                   
+                DISPLAY "INTEREST: " INTEREST
 
-                   move INTEREST to INTEREST-S 
-                DISPLAY "Interest: " INTEREST-S
+                *>    move INTEREST to INTEREST-S 
+                *> DISPLAY "Interest: " INTEREST-S
 
                 string
                       CAPITAL-S delimited by size

@@ -12,9 +12,7 @@
               file section.
            fd input-file.
            01 LEESREGEL pic x(30).
-
-        
-
+           
            fd output-file.
            01 OUTPUT-REGEL pic x(30).
            01  EOF-Flag PIC X(1) VALUE "0".
@@ -58,7 +56,7 @@
                         end-unstring
           
            display "ORIGINELE-PRIJS-S: " ORIGINELE-PRIJS-S
-            display "BTW-TARIEF-S: " BTW-TARIEF-S
+           display "BTW-TARIEF-S: " BTW-TARIEF-S
 
            MOVE function numval-c(function trim(ORIGINELE-PRIJS-S)) TO ORIGINELE-PRIJS
            MOVE function numval(function trim(BTW-TARIEF-S)) TO BTW-TARIEF
