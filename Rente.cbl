@@ -53,7 +53,7 @@
                 DISPLAY "Capital: " CAPITAL-S
                 DISPLAY "Rate: " RATE-S
                 DISPLAY "Years: " Years-S
-                display "------------------"
+                display " "
     
            MOVE function numval-c(function trim(CAPITAL-S)) TO CAPITAL-N
            MOVE function numval-c(function trim(RATE-S)) TO RATE-N
@@ -62,7 +62,8 @@
               DISPLAY "Capital-N: " CAPITAL-N
                 DISPLAY "Rate-N: " RATE-N
                 DISPLAY "Years-N: " Years-N
-                display "------------------"
+                DISPLAY " "
+               
 
                COMPUTE INTEREST = (CAPITAL-N * RATE-N * Years-N)
 
@@ -72,18 +73,20 @@
                 DISPLAY "INTEREST: " INTEREST
 
                    move INTEREST to INTEREST-S 
-                DISPLAY "Interest: " INTEREST-S
+                DISPLAY "INTEREST-S: " INTEREST-S
+                display " "
 
                 string
-                      CAPITAL-S delimited by size
+                     function trim(CAPITAL-S) delimited by size
                         "," delimited by size
-                        RATE-S delimited by size
+                       function trim(RATE-S) delimited by size
                         "," delimited by size
-                        Years-S delimited by size
+                        function trim(Years-S) delimited by size
                         "," delimited by size
-                        INTEREST-F delimited by size
+                       function trim(INTEREST-S) delimited by size
                        into Output-Regel
                        display "Output-Regel: " Output-Regel
+                        display "---------------------------"
 
                        write Output-Regel
            END-READ
