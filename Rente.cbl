@@ -12,10 +12,10 @@
        DATA DIVISION.
        file section.
            FD input-file.
-            01 Leesregel pic x(80).
+            01 Leesregel pic x(20).
 
            FD output-file.
-           01 Output-Regel PIC X(80).
+           01 Output-Regel PIC X(30).
            01 Header PIC X(21) value "Capital,Rate,Interest".
            01  INTEREST-F PIC Z(8).99.
 
@@ -28,7 +28,11 @@
            01  CAPITAL-S PIC x(10).
            01  RATE-S PIC x(4).
            01  Years-S PIC x(2).
-           01 INTEREST-S PIC Z(8).ZZ.
+
+           01  DISPLAY-CAPITAL-S PIC Z(9).ZZ.
+           01  DISPLAY-RATE-S PIC Z(2).ZZ.
+           01  DISPLAY-Years-S PIC Z(2).
+           01 DISPLAY-INTEREST-S PIC Z(8).ZZ.
            01  INTEREST PIC 9(8)V99.
            01  CAPITAL-N PIC 9(8)V99.
            01  RATE-N PIC 9(2)V99.
@@ -63,6 +67,8 @@
                 DISPLAY "Rate-N: " RATE-N
                 DISPLAY "Years-N: " Years-N
                 DISPLAY " "
+
+
                
 
                COMPUTE INTEREST = (CAPITAL-N * RATE-N * Years-N)
@@ -72,18 +78,22 @@
                    
                 DISPLAY "INTEREST: " INTEREST
 
-                   move INTEREST to INTEREST-S 
-                DISPLAY "INTEREST-S: " INTEREST-S
+                   move CAPITAL-S to DISPLAY-CAPITAL-S
+                   move RATE-S to DISPLAY-RATE-S
+                   move Years-S to DISPLAY-Years-S
+
+                   move INTEREST to DISPLAY-INTEREST-S 
+                DISPLAY "INTEREST-S: " DISPLAY-INTEREST-S
                 display " "
 
                 string
-                     function trim(CAPITAL-S) delimited by size
+                     function trim(DISPLAY-CAPITAL-S) delimited by size
                         "," delimited by size
-                       function trim(RATE-S) delimited by size
+                       function trim(DISPLAY-RATE-S) delimited by size
                         "," delimited by size
-                        function trim(Years-S) delimited by size
+                        function trim(DISPLAY-Years-S) delimited by size
                         "," delimited by size
-                       function trim(INTEREST-S) delimited by size
+                       function trim(DISPLAY-INTEREST-S) delimited by size
                        into Output-Regel
                        display "Output-Regel: " Output-Regel
                         display "---------------------------"
