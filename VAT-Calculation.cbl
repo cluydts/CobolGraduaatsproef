@@ -3,22 +3,26 @@
            environment division.
               input-output section.
                 file-control.
-                     select input-file assign to "BTW-Input.csv"
+                     select INPUT-FILE assign to DYNAMIC-INFILE
                          organization is line sequential.
-                     select output-file assign to "BTW-Output.csv"
+                     select OUTPUT-FILE assign to "BTW-Output.csv"
                          organization is line sequential.
            data division.
+           linkage section.
+           01 LINK-INPUT-FILE pic x(30).
 
-              file section.
-           fd input-file.
+           file section.
+           fd INPUT-FILE.
            01 LEESREGEL pic x(30).
            
-           fd output-file.
+           fd OUTPUT-FILE.
            01 OUTPUT-REGEL pic x(30).
-           01  EOF-Flag PIC X(1) VALUE "0".
+
+           01  EOF-FLAG PIC X(1) VALUE "0".
            01 OUTPUT-REGEL-LEN   PIC 9(2).
 
            working-storage section.
+           01 DYNAMIC-INFILE pic x(30).
            01 ORIGINELE-PRIJS pic 9(6)V99.
            01 BTW-TARIEF pic 9(2).
            01 BTW-BEDRAG pic 9(5)V99.
@@ -32,19 +36,20 @@
            01 DISPLAY-BTW-BEDRAG pic Z(5).ZZ.
            01 DISPLAY-TOTAAL-BEDRAG pic Z(7).ZZ.
 
-           procedure division.
-
-               open input input-file
-               open output output-file
-               read input-file into LEESREGEL
+           procedure division using LINK-INPUT-FILE.
+           
+               move LINK-INPUT-FILE to DYNAMIC-INFILE.
+               open input INPUT-FILE
+               open output OUTPUT-FILE
+               read INPUT-FILE into LEESREGEL
               
                
                display "LEESREGEL: " LEESREGEL
 
-               perform until EOF-Flag = "1"
-                  read input-file into LEESREGEL
+               perform until EOF-FLAG = "1"
+                  read INPUT-FILE into LEESREGEL
                   at end 
-                  move "1" to EOF-Flag
+                  move "1" to EOF-FLAG
                   not at end 
                      display "LEESREGEL: " LEESREGEL
                         UNSTRING function trim(LEESREGEL)
@@ -107,8 +112,8 @@
            end-read
            end-perform .
 
-           close input-file.
-           close output-file.
+           close INPUT-FILE.
+           close OUTPUT-FILE.
 
            stop run.
            
