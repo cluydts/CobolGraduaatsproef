@@ -3,28 +3,34 @@
            environment division.
               input-output section.
                 file-control.
-                    select input-file assign to "input.csv"
+                    select input-file assign to DYNAMIC-INFILE
                         organization is line sequential.
-                    select output-file assign to "output.csv"
+                    select output-file assign to DYNAMIC-OUTFILE
                         organization is line sequential.
 
-       DATA DIVISION.
+           DATA DIVISION.
+           linkage section.
+              01 LINK-INPUT-FILE pic x(30).
        
-              FILE SECTION.
-              FD input-file.
-              01 input-record.
-                05 naam PIC X(30).
-                05 type-werknemer PIC X(8).
-                05 brutoloon-in PIC 9(5)V99.
+            FILE SECTION.
+            FD input-file.
+            01 input-record.
+              05 naam PIC X(30).
+              05 type-werknemer PIC X(8).
+              05 brutoloon-in PIC 9(5)V99.
     
-              FD output-file.
-              01 output-record.
-                05 naam-out PIC X(30).
-                05 brutoloon-out PIC 9(5)V99.
-                05 voorheffing-out PIC 9(5)V99.
-                05 netto-out PIC 9(5)V99.
+            FD output-file.
+            01 output-record.
+              05 naam-out PIC X(30).
+              05 brutoloon-out PIC 9(5)V99.
+              05 voorheffing-out PIC 9(5)V99.
+              05 netto-out PIC 9(5)V99.
 
        WORKING-STORAGE SECTION.
+
+           1 DYNAMIC-INFILE pic x(30).
+           01 DYNAMIC-OUTFILE pic x(30).
+           01 OUTPUT-PREFIX pic x(8) value "Output-".
    
            01 brutoloon PIC 9(5)V99.
            01 brutoloon-Arbeider PIC 9(5)V99.
@@ -32,10 +38,19 @@
            01 Voorheffing PIC 9(5)V99.
            01 NettoLoon PIC 9(5)V99.
     
-       PROCEDURE DIVISION.
+       PROCEDURE DIVISION LINK-INPUT-FILE.
+
+              MOVE LINK-INPUT-FILE TO DYNAMIC-INFILE.
+              string
+               OUTPUT-PREFIX delimited by size
+               DYNAMIC-INFILE delimited by size
+               into DYNAMIC-OUTFILE
+              end-string
+
               OPEN INPUT input-file
                 OPEN OUTPUT output-file
                 READ input-file INTO input-record
+                
                 PERFORM UNTIL input-file = "EOF"
                     READ input-file INTO input-record
                         AT END

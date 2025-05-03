@@ -1,17 +1,18 @@
-           identification division.
-           program-id. BTW-PROGRAM.
-           environment division.
-              input-output section.
-                file-control.
-                     select INPUT-FILE assign to DYNAMIC-INFILE
-                         organization is line sequential.
-                     select OUTPUT-FILE assign to "BTW-Output.csv"
-                         organization is line sequential.
-           data division.
-           linkage section.
+       identification division.
+       program-id. BTW-PROGRAM.
+       environment division.
+       input-output section.
+       file-control.
+             select INPUT-FILE assign to DYNAMIC-INFILE
+                 organization is line sequential.
+             select OUTPUT-FILE assign to DYNAMIC-OUTFILE
+                 organization is line sequential.
+
+       data division.
+       linkage section.
            01 LINK-INPUT-FILE pic x(30).
 
-           file section.
+       file section.
            fd INPUT-FILE.
            01 LEESREGEL pic x(30).
            
@@ -21,8 +22,11 @@
            01  EOF-FLAG PIC X(1) VALUE "0".
            01 OUTPUT-REGEL-LEN   PIC 9(2).
 
-           working-storage section.
+       working-storage section.
            01 DYNAMIC-INFILE pic x(30).
+           01 DYNAMIC-OUTFILE pic x(30).
+           01 OUTPUT-PREFIX pic x(8) value "Output-".
+
            01 ORIGINELE-PRIJS pic 9(6)V99.
            01 BTW-TARIEF pic 9(2).
            01 BTW-BEDRAG pic 9(5)V99.
@@ -36,29 +40,36 @@
            01 DISPLAY-BTW-BEDRAG pic Z(5).ZZ.
            01 DISPLAY-TOTAAL-BEDRAG pic Z(7).ZZ.
 
-           procedure division using LINK-INPUT-FILE.
+       procedure division using LINK-INPUT-FILE.
            
-               move LINK-INPUT-FILE to DYNAMIC-INFILE.
-               open input INPUT-FILE
-               open output OUTPUT-FILE
-               read INPUT-FILE into LEESREGEL
+           move LINK-INPUT-FILE to DYNAMIC-INFILE.
+           string
+           OUTPUT-PREFIX delimited by size
+
+           DYNAMIC-INFILE delimited by size
+           into DYNAMIC-OUTFILE
+           end-string
+
+           open input INPUT-FILE
+           open output OUTPUT-FILE
+           read INPUT-FILE into LEESREGEL
               
                
-               display "LEESREGEL: " LEESREGEL
+            display "LEESREGEL: " LEESREGEL
 
-               perform until EOF-FLAG = "1"
-                  read INPUT-FILE into LEESREGEL
-                  at end 
-                  move "1" to EOF-FLAG
-                  not at end 
-                     display "LEESREGEL: " LEESREGEL
-                        UNSTRING function trim(LEESREGEL)
-                           DELIMITED BY ","
-                                       or " "
-                                       or ", "
-                           INTO ORIGINELE-PRIJS-S 
-                                BTW-TARIEF-S
-                        end-unstring
+            perform until EOF-FLAG = "1"
+               read INPUT-FILE into LEESREGEL
+               at end 
+               move "1" to EOF-FLAG
+               not at end 
+                  display "LEESREGEL: " LEESREGEL
+                     UNSTRING function trim(LEESREGEL)
+                        DELIMITED BY ","
+                                    or " "
+                                    or ", "
+                        INTO ORIGINELE-PRIJS-S 
+                             BTW-TARIEF-S
+                     end-unstring
           
            display "ORIGINELE-PRIJS-S: " ORIGINELE-PRIJS-S
            display "BTW-TARIEF-S: " BTW-TARIEF-S

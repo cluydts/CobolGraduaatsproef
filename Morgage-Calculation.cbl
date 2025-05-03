@@ -3,13 +3,16 @@
        environment division.
        input-output section.
            file-control.
-               select input-file assign to "Inputfile.csv"
+               select input-file assign to DYNAMIC-INFILE
                    organization is line sequential.
-               select output-file assign to "Outputfile.csv"
+               select output-file assign to DYNAMIC-OUTFILE
                    organization is line sequential.
 
 
        DATA DIVISION.
+       linkage section.
+              01 LINK-INPUT-FILE pic x(30).
+
        file section.
            FD input-file.
             01 Leesregel pic x(20).
@@ -24,6 +27,10 @@
               
        WORKING-STORAGE SECTION.
           
+              01 DYNAMIC-INFILE pic x(30).
+              01 DYNAMIC-OUTFILE pic x(30).
+              01 OUTPUT-PREFIX pic x(8) value "Output-".
+
            01  TOTAL-AMOUNT-S PIC 9(8)V99.
            01  CAPITAL-S PIC x(10).
            01  RATE-S PIC x(4).
