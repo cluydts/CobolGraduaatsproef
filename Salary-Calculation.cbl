@@ -25,10 +25,12 @@
               05 brutoloon-out PIC 9(5)V99.
               05 voorheffing-out PIC 9(5)V99.
               05 netto-out PIC 9(5)V99.
+                05 rsz-out PIC 9(5)V99.
+               01 EOF-FLAG PIC X(1) VALUE "0".
 
        WORKING-STORAGE SECTION.
 
-           1 DYNAMIC-INFILE pic x(30).
+           01 DYNAMIC-INFILE pic x(30).
            01 DYNAMIC-OUTFILE pic x(30).
            01 OUTPUT-PREFIX pic x(8) value "Output-".
    
@@ -37,6 +39,7 @@
            01 RSZ PIC 9(5)V99.
            01 Voorheffing PIC 9(5)V99.
            01 NettoLoon PIC 9(5)V99.
+          
     
        PROCEDURE DIVISION using LINK-INPUT-FILE.
 
@@ -51,10 +54,10 @@
                 OPEN OUTPUT output-file
                 READ input-file INTO input-record
                 
-                PERFORM UNTIL input-file = "EOF"
+                PERFORM UNTIL EOF-FLAG = "1"
                     READ input-file INTO input-record
                         AT END
-                            MOVE "EOF" TO input-file
+                            MOVE "1" TO EOF-FLAG
                         NOT AT END
                             MOVE brutoloon-in TO Brutoloon
                         END-READ
