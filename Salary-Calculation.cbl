@@ -72,11 +72,11 @@
 
            if  brutoloon-in <= 1318.33
             compute Voorheffing = brutoloon-in * 0.15
-           else if brutoloon-in > 1318.33 and brutoloon-in <= 2326.66
+           else if brutoloon-in <= 2326.66
             compute Voorheffing = brutoloon-in * 0.25
-           else if brutoloon-in > 2326.66 and brutoloon-in <= 4026.66
+           else if brutoloon-in <= 4026.66
             compute voorheffing = brutoloon-in * 0.45
-            else if brutoloon-in > 4026.66
+            else 
             compute voorheffing = brutoloon-in * 0.50
            end-if.
 
@@ -94,4 +94,4 @@
                 CLOSE output-file
                 DISPLAY "Salarisberekening voltooid."
 
-           STOP RUN.
+           goback.
