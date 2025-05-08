@@ -45,7 +45,14 @@
            01  RATE-N PIC 9(2)V99.
            01  Years-N PIC 9(2).
 
-       PROCEDURE DIVISION.
+       PROCEDURE DIVISION using LINK-INPUT-FILE.
+
+              MOVE LINK-INPUT-FILE TO DYNAMIC-INFILE.
+                string
+                 OUTPUT-PREFIX delimited by size
+                 DYNAMIC-INFILE delimited by size
+                 into DYNAMIC-OUTFILE
+                end-string
 
            OPEN INPUT input-file
            OPEN OUTPUT output-file

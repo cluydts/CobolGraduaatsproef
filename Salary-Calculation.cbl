@@ -38,7 +38,7 @@
            01 Voorheffing PIC 9(5)V99.
            01 NettoLoon PIC 9(5)V99.
     
-       PROCEDURE DIVISION LINK-INPUT-FILE.
+       PROCEDURE DIVISION using LINK-INPUT-FILE.
 
               MOVE LINK-INPUT-FILE TO DYNAMIC-INFILE.
               string
