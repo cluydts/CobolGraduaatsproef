@@ -19,19 +19,19 @@
                    display "You have chosen VAT calculation"
                    display "Please enter the input file name:"
                    accept CSV-INPUT-FILE
-                   call 'VAT-Calculation' using CSV-INPUT-FILE
+                   call 'VATCalculation' using CSV-INPUT-FILE
                    
                 when "2"
                    display "You have chosen Morgage calculation"
                    display "Please enter the input file name:"
                    accept CSV-INPUT-FILE
-                   call 'Morgage-Calculation' using CSV-INPUT-FILE
+                   call 'MorgageCalculation' using CSV-INPUT-FILE
                    
                 when "3"
                    display "You have chosen Salary calculation"
                    display "Please enter the input file name:"
                    accept CSV-INPUT-FILE
-                   call 'Salary-Calculation' using CSV-INPUT-FILE
+                   call 'SalaryCalculation' using CSV-INPUT-FILE
                    
                 when other
                 display "Invalid choice stopping program."

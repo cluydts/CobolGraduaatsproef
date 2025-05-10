@@ -1,5 +1,5 @@
        identification division.
-       program-id. BTW-PROGRAM.
+       program-id. VATCalculation.
        environment division.
        input-output section.
        file-control.

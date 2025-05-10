@@ -1,5 +1,6 @@
        IDENTIFICATION DIVISION.
-       PROGRAM-ID. RENTE-BEREKENING.
+       PROGRAM-ID. MorgageCalculation.
+       
        environment division.
        input-output section.
            file-control.
@@ -119,4 +120,4 @@
            close input-file.
            close output-file.
            
-           STOP RUN.
+           goback.

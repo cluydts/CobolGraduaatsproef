@@ -1,5 +1,5 @@
        IDENTIFICATION DIVISION.
-           PROGRAM-ID. SalarisBerekening.
+           PROGRAM-ID. SalaryCalculation.
            environment division.
               input-output section.
                 file-control.
@@ -25,8 +25,8 @@
               05 brutoloon-out PIC 9(5)V99.
               05 voorheffing-out PIC 9(5)V99.
               05 netto-out PIC 9(5)V99.
-                05 rsz-out PIC 9(5)V99.
-               01 EOF-FLAG PIC X(1) VALUE "0".
+              05 rsz-out PIC 9(5)V99.
+           01 EOF-FLAG PIC X(1) VALUE "0".
 
        WORKING-STORAGE SECTION.
 
@@ -60,36 +60,40 @@
                             MOVE "1" TO EOF-FLAG
                         NOT AT END
                             MOVE brutoloon-in TO Brutoloon
-                        END-READ
+                    
 
-                    IF TypeWerknemer = "Bediende"
+                    IF type-werknemer = "Bediende"
                         COMPUTE RSZ = Brutoloon * 0.1307
-                    ELSE IF TypeWerknemer = "Arbeider"
+                    ELSE IF type-werknemer = "Arbeider"
                            compute brutoloon-Arbeider = brutoloon * 1.08
                         COMPUTE RSZ = brutoloon-Arbeider * 0.1307
                     END-IF.
 
 
-           if  brutoloon-in <= 1318.33
-            compute Voorheffing = brutoloon-in * 0.15
-           else if brutoloon-in <= 2326.66
-            compute Voorheffing = brutoloon-in * 0.25
-           else if brutoloon-in <= 4026.66
-            compute voorheffing = brutoloon-in * 0.45
-            else 
-            compute voorheffing = brutoloon-in * 0.50
-           end-if.
+                   if  brutoloon-in <= 1318.33
+                    compute Voorheffing = brutoloon-in * 0.15
+                   else if brutoloon-in <= 2326.66
+                    compute Voorheffing = brutoloon-in * 0.25
+                   else if brutoloon-in <= 4026.66
+                    compute voorheffing = brutoloon-in * 0.45
+                    else 
+                    compute voorheffing = brutoloon-in * 0.50
+                   end-if.
 
-           COMPUTE NettoLoon = Brutoloon - RSZ - Voorheffing.
+                   COMPUTE NettoLoon = Brutoloon - RSZ - Voorheffing.
 
-                MOVE Naam TO naam-out
-                MOVE Brutoloon TO brutoloon-out
-                MOVE RSZ TO rsz-out
-                MOVE Voorheffing TO voorheffing-out
-                MOVE NettoLoon TO netto-out
-                WRITE output-record
-                    END-WRITE
-                END-PERFORM
+                   MOVE Naam TO naam-out
+                   MOVE Brutoloon TO brutoloon-out
+                   MOVE RSZ TO rsz-out
+                   MOVE Voorheffing TO voorheffing-out
+                   MOVE NettoLoon TO netto-out
+
+                   WRITE output-record
+                   
+                END-READ
+              END-PERFORM
+
+
                 CLOSE input-file
                 CLOSE output-file
                 DISPLAY "Salarisberekening voltooid."
