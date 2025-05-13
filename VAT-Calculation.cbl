@@ -126,5 +126,5 @@
            close INPUT-FILE.
            close OUTPUT-FILE.
 
-           stop run.
+           goback.
            
