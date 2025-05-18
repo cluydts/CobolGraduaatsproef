@@ -9,8 +9,7 @@
                         organization is line sequential.
 
            DATA DIVISION.
-           linkage section.
-              01 LINK-INPUT-FILE pic x(30).
+          
        
             FILE SECTION.
             FD input-file.
@@ -40,7 +39,9 @@
            01 Voorheffing PIC 9(5)V99.
            01 NettoLoon PIC 9(5)V99.
           
-    
+     linkage section.
+              01 LINK-INPUT-FILE pic x(30).
+
        PROCEDURE DIVISION using LINK-INPUT-FILE.
 
               MOVE LINK-INPUT-FILE TO DYNAMIC-INFILE.
@@ -67,7 +68,7 @@
                     ELSE IF type-werknemer = "Arbeider"
                            compute brutoloon-Arbeider = brutoloon * 1.08
                         COMPUTE RSZ = brutoloon-Arbeider * 0.1307
-                    END-IF.
+                    END-IF
 
 
                    if  brutoloon-in <= 1318.33
@@ -78,9 +79,9 @@
                     compute voorheffing = brutoloon-in * 0.45
                     else 
                     compute voorheffing = brutoloon-in * 0.50
-                   end-if.
+                   end-if
 
-                   COMPUTE NettoLoon = Brutoloon - RSZ - Voorheffing.
+                   COMPUTE NettoLoon = Brutoloon - RSZ - Voorheffing
 
                    MOVE Naam TO naam-out
                    MOVE Brutoloon TO brutoloon-out
@@ -91,7 +92,7 @@
                    WRITE output-record
                    
                 END-READ
-              END-PERFORM
+              END-PERFORM.
 
 
                 CLOSE input-file

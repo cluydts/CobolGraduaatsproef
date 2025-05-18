@@ -9,9 +9,7 @@
                  organization is line sequential.
 
        data division.
-       linkage section.
-           01 LINK-INPUT-FILE pic x(30).
-
+   
        file section.
            fd INPUT-FILE.
            01 LEESREGEL pic x(30).
@@ -39,6 +37,9 @@
            01 DISPLAY-BTW-TARIEF pic Z(2).
            01 DISPLAY-BTW-BEDRAG pic Z(5).ZZ.
            01 DISPLAY-TOTAAL-BEDRAG pic Z(7).ZZ.
+
+       linkage section.
+           01 LINK-INPUT-FILE pic x(30).
 
        procedure division using LINK-INPUT-FILE.
            

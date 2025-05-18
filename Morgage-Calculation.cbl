@@ -11,9 +11,7 @@
 
 
        DATA DIVISION.
-       linkage section.
-              01 LINK-INPUT-FILE pic x(30).
-
+    
        file section.
            FD input-file.
             01 Leesregel pic x(20).
@@ -45,6 +43,9 @@
            01  CAPITAL-N PIC 9(8)V99.
            01  RATE-N PIC 9(2)V99.
            01  Years-N PIC 9(2).
+
+              linkage section.
+              01 LINK-INPUT-FILE pic x(30).
 
        PROCEDURE DIVISION using LINK-INPUT-FILE.
 
