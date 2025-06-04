@@ -13,7 +13,7 @@
            DATA DIVISION.
           
        
-            FILE SECTION.
+           FILE SECTION.
            FD input-file.
            01 LEESREGEL pic x(100).
     
@@ -196,7 +196,6 @@
                    function trim(RSZ-out) delimited by size
                    "," delimited by size
                    function trim(Voorheffing-out) delimited by size
-                   "," delimited by size
                    into output-regel
                    end-string
 
