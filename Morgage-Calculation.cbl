@@ -14,7 +14,7 @@
     
        file section.
            FD input-file.
-            01 Leesregel pic x(20).
+            01 Leesregel pic x(100).
 
            FD output-file.
            01 Output-Regel PIC X(30).
@@ -26,9 +26,9 @@
               
        WORKING-STORAGE SECTION.
           
-              01 DYNAMIC-INFILE pic x(30).
-              01 DYNAMIC-OUTFILE pic x(30).
-              01 OUTPUT-PREFIX pic x(8) value "Output-".
+            01 DYNAMIC-INFILE pic x(30).
+            01 DYNAMIC-OUTFILE pic x(30).
+            01 OUTPUT-PREFIX pic x(8) value "Output-".
 
            01  TOTAL-AMOUNT-S PIC 9(8)V99.
            01  CAPITAL-S PIC x(10).
@@ -84,9 +84,6 @@
                 DISPLAY "Years-N: " Years-N
                 DISPLAY " "
 
-
-               
-
                COMPUTE INTEREST = (CAPITAL-N * RATE-N * Years-N)
 
                compute INTEREST = INTEREST /100
@@ -102,17 +99,17 @@
                 DISPLAY "INTEREST-S: " DISPLAY-INTEREST-S
                 display " "
 
-                string
-                     function trim(DISPLAY-CAPITAL-S) delimited by size
-                        "," delimited by size
-                       function trim(DISPLAY-RATE-S) delimited by size
-                        "," delimited by size
-                        function trim(DISPLAY-Years-S) delimited by size
-                        "," delimited by size
-                       function trim(DISPLAY-INTEREST-S) delimited by size
-                       into Output-Regel
-                       display "Output-Regel: " Output-Regel
-                        display "---------------------------"
+           string
+                function trim(DISPLAY-CAPITAL-S) delimited by size
+                   "," delimited by size
+                  function trim(DISPLAY-RATE-S) delimited by size
+                   "," delimited by size
+                   function trim(DISPLAY-Years-S) delimited by size
+                   "," delimited by size
+                  function trim(DISPLAY-INTEREST-S) delimited by size
+                  into Output-Regel
+                  display "Output-Regel: " Output-Regel
+                   display "---------------------------"
 
                        write Output-Regel
            END-READ

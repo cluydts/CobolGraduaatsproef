@@ -12,7 +12,7 @@
    
        file section.
            fd INPUT-FILE.
-           01 LEESREGEL pic x(30).
+           01 LEESREGEL pic x(100).
            
            fd OUTPUT-FILE.
            01 OUTPUT-REGEL pic x(30).
@@ -64,6 +64,7 @@
                move "1" to EOF-FLAG
                not at end 
                   display "LEESREGEL: " LEESREGEL
+                  
                      UNSTRING function trim(LEESREGEL)
                         DELIMITED BY ","
                                     or " "
