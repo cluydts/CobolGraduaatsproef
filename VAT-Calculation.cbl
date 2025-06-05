@@ -29,8 +29,9 @@
            01 WS-OUTPUT-STATUS PIC XX.
            01 OUTPUT-PREFIX pic x(8) value "Output-".
 
-   01 HEADER PIC X(41) VALUE "prijs,BTW-Tarief,BTW-bedrag,Totaal-bedrag".
-
+           01 HEADER-1 PIC X(16) VALUE "Prijs,BTW-Tarief".
+           01 HEADER-2 pic x(25) value "BTW-bedrag,Totaal-bedrag".
+           01 FULL-HEADER pic x(42).
            01 ORIGINELE-PRIJS pic 9(6)V99.
            01 BTW-TARIEF pic 9(2).
            01 BTW-BEDRAG pic 9(5)V99.
@@ -48,6 +49,13 @@
            01 LINK-INPUT-FILE pic x(30).
 
        procedure division using LINK-INPUT-FILE.
+
+           string 
+           HEADER-1 delimited by space
+               "," delimited by size
+               HEADER-2 delimited by space
+               into FULL-HEADER
+               end-string
            
            move LINK-INPUT-FILE to DYNAMIC-INFILE.
            string
@@ -69,7 +77,11 @@
                DISPLAY "Error opening output file: " WS-OUTPUT-STATUS
                GOBACK
            END-IF
+           
 
+           move FULL-HEADER to OUTPUT-REGEL
+           write OUTPUT-REGEL
+           move spaces to OUTPUT-REGEL
            read INPUT-FILE into LEESREGEL *> skips Header
               
            DISPLAY "Status after 1st READ (header skip): " WS-INPUT-STATUS
