@@ -187,7 +187,6 @@
                DISPLAY "Status after CLOSE input-file: " WS-INPUT-STATUS
            close OUTPUT-FILE
              DISPLAY "Status after CLOSE output-file: " WS-OUTPUT-STATUS
-             DISPLAY "Salarisberekening voltooid."
-
+            
            goback.
            

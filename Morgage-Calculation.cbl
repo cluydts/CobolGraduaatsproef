@@ -16,7 +16,7 @@
     
        file section.
            FD input-file.
-            01 Leesregel pic x(100).
+            01 FILE-LINE pic x(100).
 
            FD output-file.
            01 Output-Regel PIC X(100).
@@ -31,7 +31,7 @@
            01 WS-OUTPUT-STATUS PIC XX.
            01 OUTPUT-PREFIX pic x(8) value "Output-".
 
-           01 Header PIC X(21) value "Capital,Rate,Interest".
+           01 HEADER PIC X(21) value "Capital,Rate,Interest".
 
            01  TOTAL-AMOUNT-S PIC 9(8)V99.
            01  CAPITAL-S PIC x(10).
@@ -52,31 +52,31 @@
 
        PROCEDURE DIVISION using LINK-INPUT-FILE.
 
-              MOVE LINK-INPUT-FILE TO DYNAMIC-INFILE.
-                string
-                 OUTPUT-PREFIX delimited by size
-                 DYNAMIC-INFILE delimited by size
-                 into DYNAMIC-OUTFILE
-                end-string
+           MOVE LINK-INPUT-FILE TO DYNAMIC-INFILE.
+             string
+              OUTPUT-PREFIX delimited by size
+              DYNAMIC-INFILE delimited by size
+              into DYNAMIC-OUTFILE
+             end-string
 
-            OPEN INPUT input-file
+           OPEN INPUT input-file
                DISPLAY "Status after OPEN input-file: " WS-INPUT-STATUS
                IF WS-INPUT-STATUS NOT = "00"
                    DISPLAY "Error opening input file: " WS-INPUT-STATUS
                    GOBACK
                END-IF
-                OPEN OUTPUT output-file
-                 DISPLAY "Status after OPEN output-file: " WS-OUTPUT-STATUS
-           IF WS-OUTPUT-STATUS NOT = "00"
-               DISPLAY "Error opening output file: " WS-OUTPUT-STATUS
-               GOBACK
-           END-IF
+            OPEN OUTPUT output-file
+            DISPLAY "Status after OPEN output-file: " WS-OUTPUT-STATUS
+               IF WS-OUTPUT-STATUS NOT = "00"
+                   DISPLAY "Error opening output file: " WS-OUTPUT-STATUS
+                   GOBACK
+               END-IF
 
-           move Header to Output-Regel
+           move HEADER to Output-Regel
            write Output-Regel
            move spaces to Output-Regel
 
-           READ input-file INTO Leesregel *> skips Header
+           READ input-file INTO FILE-LINE *> skips Header
              DISPLAY "Status after 1st READ (header skip): " WS-INPUT-STATUS
            IF WS-INPUT-STATUS = "10" *> "10" is standard for EOF
                DISPLAY "EOF reached immediately after header read. Input file might be empty or just a header."
@@ -87,7 +87,7 @@
            END-IF
            
            PERFORM UNTIL EOF-Flag = "1"
-              read input-file INTO Leesregel
+              read input-file INTO FILE-LINE
                    AT END
                        MOVE "1" to EOF-Flag
            DISPLAY "AT END encountered in loop. Final input status: " WS-INPUT-STATUS
@@ -98,7 +98,7 @@
                    MOVE "1" TO EOF-FLAG *> Stop processing on error
                 ELSE
            *>    -------------------------------------------------------------
-               UNSTRING function trim(Leesregel)
+               UNSTRING function trim(FILE-LINE)
                DELIMITED BY ","
                          OR ", "
                          INTO CAPITAL-S 
@@ -175,6 +175,6 @@
            DISPLAY "Status after CLOSE input-file: " WS-INPUT-STATUS
            close output-file.
             DISPLAY "Status after CLOSE output-file: " WS-OUTPUT-STATUS
-                DISPLAY "Salarisberekening voltooid."
+                
            
            goback.

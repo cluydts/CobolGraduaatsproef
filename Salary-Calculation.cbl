@@ -15,10 +15,10 @@
        
            FILE SECTION.
            FD input-file.
-           01 LEESREGEL pic x(100).
+           01 FILE-LINE pic x(100).
     
            FD output-file.
-           01 output-regel pic x(100).
+           01 OUTPUT-LINE pic x(100).
 
        WORKING-STORAGE SECTION.
 
@@ -58,19 +58,20 @@
 
        PROCEDURE DIVISION using LINK-INPUT-FILE.
 
-           string 
-           HEADER-1 delimited by space
+             string 
+               HEADER-1 delimited by space
                "," delimited by size
                HEADER-2 delimited by space
                into FULL-HEADER
-               end-string
+             end-string
 
-              MOVE LINK-INPUT-FILE TO DYNAMIC-INFILE.
-              string
+            MOVE LINK-INPUT-FILE TO DYNAMIC-INFILE.
+
+             string
                OUTPUT-PREFIX delimited by size
                DYNAMIC-INFILE delimited by size
                into DYNAMIC-OUTFILE
-              end-string
+             end-string
 
               
               OPEN INPUT input-file
@@ -86,11 +87,11 @@
                GOBACK
            END-IF
                 
-                move FULL-HEADER to output-regel
-                write output-regel
-                move spaces to output-regel
+                move FULL-HEADER to OUTPUT-LINE
+                write OUTPUT-LINE
+                move spaces to OUTPUT-LINE
 
-                 read input-file into LEESREGEL *> skips Header
+                 read input-file into FILE-LINE *> skips Header
             DISPLAY "Status after 1st READ (header skip): " WS-INPUT-STATUS
            IF WS-INPUT-STATUS = "10" *> "10" is standard for EOF
                DISPLAY "EOF reached immediately after header read. Input file might be empty or just a header."
@@ -102,7 +103,7 @@
      *>    -------------------------------------------------------------
                 
                 PERFORM UNTIL EOF-FLAG = "1"
-                   read input-file into LEESREGEL
+                   read input-file into FILE-LINE
                         AT END
                             MOVE "1" TO EOF-FLAG
            DISPLAY "AT END encountered in loop. Final input status: " WS-INPUT-STATUS
@@ -112,7 +113,7 @@
                   DISPLAY "I/O Error during data read: " WS-INPUT-STATUS
                    MOVE "1" TO EOF-FLAG *> Stop processing on error
                 ELSE
-                        unstring function trim(LEESREGEL)
+                        unstring function trim(FILE-LINE)
                          DELIMITED BY ","
                                     or ", "
                                     into naam
@@ -196,10 +197,10 @@
                    function trim(RSZ-out) delimited by size
                    "," delimited by size
                    function trim(Voorheffing-out) delimited by size
-                   into output-regel
+                   into OUTPUT-LINE
                    end-string
 
-                   write output-regel
+                   write OUTPUT-LINE
                
 *>    -------------------------------------------------------------
            DISPLAY "Status after WRITE output data: " WS-OUTPUT-STATUS
@@ -207,23 +208,22 @@
                DISPLAY "Error writing data to output: " WS-OUTPUT-STATUS
                MOVE "1" TO EOF-FLAG *> Stop processing
              END-IF
-               display "Output-regel: " output-regel
+               display "OUTPUT-LINE: " OUTPUT-LINE
                    move spaces to naam
                    move spaces to type-werknemer
                    move zeroes to brutoloon-out
                    move zeroes to NettoLoon-out    
                    move zeroes to RSZ-out
                    move zeroes to Voorheffing-out  
-                   move spaces to output-regel
+                   move spaces to OUTPUT-LINE
                end-if
                 END-READ
               END-PERFORM.
 
 *>    -------------------------------------------------------------
-                 CLOSE input-file
-           DISPLAY "Status after CLOSE input-file: " WS-INPUT-STATUS
+           CLOSE input-file
+               DISPLAY "Status after CLOSE input-file: " WS-INPUT-STATUS
            CLOSE output-file
-           DISPLAY "Status after CLOSE output-file: " WS-OUTPUT-STATUS
-                DISPLAY "Salarisberekening voltooid."
+               DISPLAY "Status after CLOSE output-file: " WS-OUTPUT-STATUS
 
            goback.
