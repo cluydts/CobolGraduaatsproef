@@ -1,97 +1,98 @@
        IDENTIFICATION DIVISION.
-           PROGRAM-ID. SalaryCalculation.
-           environment division.
-              input-output section.
-                file-control.
-                    select input-file assign to DYNAMIC-INFILE
-                        organization is line sequential
-                        file status is WS-INPUT-STATUS.
-                    select output-file assign to DYNAMIC-OUTFILE
-                        organization is line sequential
-                        file status is WS-OUTPUT-STATUS.
+       PROGRAM-ID. SalaryCalculation.
+       environment division.
+       input-output section.
+           file-control.
+            select input-file assign to DYNAMIC-INFILE
+                organization is line sequential
+                file status is WS-INPUT-STATUS.
+            select output-file assign to DYNAMIC-OUTFILE
+                organization is line sequential
+                file status is WS-OUTPUT-STATUS.
 
-           DATA DIVISION.
+       DATA DIVISION.
           
        
-           FILE SECTION.
+       FILE SECTION.
            FD input-file.
-           01 FILE-LINE pic x(100).
+       01  FILE-LINE pic x(100).
     
            FD output-file.
-           01 OUTPUT-LINE pic x(100).
+       01  OUTPUT-LINE pic x(100).
 
        WORKING-STORAGE SECTION.
 
        
-           01 EOF-FLAG PIC X(1) VALUE "0".
+       01 EOF-FLAG PIC X(1) VALUE "0".
 
-           01 DYNAMIC-INFILE pic x(30).
-           01 DYNAMIC-OUTFILE pic x(30).
-           01 WS-INPUT-STATUS  PIC XX.            
-           01 WS-OUTPUT-STATUS PIC XX.
-           01 OUTPUT-PREFIX pic x(8) value "Output-".
-           01 HEADER-1 PIC X(21) VALUE "Naam,Type,Bruttoloon".
-           01 HEADER-2 pic X(25) value "NettoLoon,RSZ,Voorheffing".
-           01 FULL-HEADER pic x(46).
+       01 DYNAMIC-INFILE pic x(30).
+       01 DYNAMIC-OUTFILE pic x(30).
+       01 WS-INPUT-STATUS  PIC XX.            
+       01 WS-OUTPUT-STATUS PIC XX.
+       01 OUTPUT-PREFIX pic x(8) value "Output-".
+       01 HEADER-1 PIC X(21) VALUE "Naam,Type,Bruttoloon".
+       01 HEADER-2 pic X(25) value "NettoLoon,RSZ,Voorheffing".
+       01 FULL-HEADER pic x(46).
 
            *>    ---------------------------------------------------
-           01 naam PIC X(30).             01 type-werknemer PIC X(8).
-           01 brutoloon-in PIC x(7).
-           *>    ---------------------------------------------------
-           01 brutoloon PIC 9(5)V99.
-           01 brutoloon-Arbeider PIC 9(5)V99.
-           01 RSZ PIC 9(5)V99.
-           01 Voorheffing PIC 9(5)V99.
-           01 NettoLoon PIC 9(5)V99.
-           01 BRUTO-AFTER-RSZ pic 9(9)V99.
-           *>    ---------------------------------------------------
-           01 brutoloon-out PIC Z(5).ZZ.
-           01 brutoloon-Arbeider-out PIC Z(5).ZZ.
-           01 RSZ-out PIC Z(5).ZZ.
-           01 Voorheffing-out PIC Z(5).ZZ.
-           01 NettoLoon-out PIC Z(5).ZZ.
-           *>    ---------------------------------------------------
+       01 naam PIC X(30).             
+       01 type-werknemer PIC X(8).
+       01 brutoloon-in PIC x(7).
+       *>    ---------------------------------------------------
+       01 brutoloon PIC 9(5)V99.
+       01 brutoloon-Arbeider PIC 9(5)V99.
+       01 RSZ PIC 9(5)V99.
+       01 Voorheffing PIC 9(5)V99.
+       01 NettoLoon PIC 9(5)V99.
+       01 BRUTO-AFTER-RSZ pic 9(9)V99.
+      *>   -------------------------------------------------------------
+       01 brutoloon-out PIC Z(5).ZZ.
+       01 brutoloon-Arbeider-out PIC Z(5).ZZ.
+       01 RSZ-out PIC Z(5).ZZ.
+       01 Voorheffing-out PIC Z(5).ZZ.
+       01 NettoLoon-out PIC Z(5).ZZ.
+      *>   -------------------------------------------------------------
 
           
-           linkage section.
-           01 LINK-INPUT-FILE pic x(30).
+       linkage section.
+       01 LINK-INPUT-FILE pic x(30).
 
        PROCEDURE DIVISION using LINK-INPUT-FILE.
 
-             string 
-               HEADER-1 delimited by space
-               "," delimited by size
-               HEADER-2 delimited by space
-               into FULL-HEADER
-             end-string
+           string 
+             HEADER-1 delimited by space
+             "," delimited by size
+             HEADER-2 delimited by space
+             into FULL-HEADER
+           end-string
 
             MOVE LINK-INPUT-FILE TO DYNAMIC-INFILE.
 
-             string
-               OUTPUT-PREFIX delimited by size
-               DYNAMIC-INFILE delimited by size
-               into DYNAMIC-OUTFILE
-             end-string
+           string
+             OUTPUT-PREFIX delimited by size
+             DYNAMIC-INFILE delimited by size
+             into DYNAMIC-OUTFILE
+           end-string
 
               
-              OPEN INPUT input-file
-               DISPLAY "Status after OPEN input-file: " WS-INPUT-STATUS
-               IF WS-INPUT-STATUS NOT = "00"
-                   DISPLAY "Error opening input file: " WS-INPUT-STATUS
-                   GOBACK
-               END-IF
-                OPEN OUTPUT output-file
-                 DISPLAY "Status after OPEN output-file: " WS-OUTPUT-STATUS
+           OPEN INPUT input-file
+            DISPLAY "Status after OPEN input-file: " WS-INPUT-STATUS
+            IF WS-INPUT-STATUS NOT = "00"
+                DISPLAY "Error opening input file: " WS-INPUT-STATUS
+                GOBACK
+            END-IF
+             OPEN OUTPUT output-file
+              DISPLAY "Status after OPEN output-file: " WS-OUTPUT-STATUS
            IF WS-OUTPUT-STATUS NOT = "00"
                DISPLAY "Error opening output file: " WS-OUTPUT-STATUS
                GOBACK
            END-IF
                 
-                move FULL-HEADER to OUTPUT-LINE
-                write OUTPUT-LINE
-                move spaces to OUTPUT-LINE
+            move FULL-HEADER to OUTPUT-LINE
+            write OUTPUT-LINE
+            move spaces to OUTPUT-LINE
 
-                 read input-file into FILE-LINE *> skips Header
+            read input-file into FILE-LINE *> skips Header
             DISPLAY "Status after 1st READ (header skip): " WS-INPUT-STATUS
            IF WS-INPUT-STATUS = "10" *> "10" is standard for EOF
                DISPLAY "EOF reached immediately after header read. Input file might be empty or just a header."
@@ -100,12 +101,12 @@
                DISPLAY "Error on 1st READ (header skip): " WS-INPUT-STATUS
                GOBACK
            END-IF
-     *>    -------------------------------------------------------------
+      *>   -------------------------------------------------------------
                 
-                PERFORM UNTIL EOF-FLAG = "1"
-                   read input-file into FILE-LINE
-                        AT END
-                            MOVE "1" TO EOF-FLAG
+           PERFORM UNTIL EOF-FLAG = "1"
+              read input-file into FILE-LINE
+                   AT END
+                       MOVE "1" TO EOF-FLAG
            DISPLAY "AT END encountered in loop. Final input status: " WS-INPUT-STATUS
                         NOT AT END
                      DISPLAY "Status after data READ: " WS-INPUT-STATUS
@@ -121,16 +122,16 @@
                                          brutoloon-in
                         end-unstring
                         display " "
-                display "leesregel-naam: " naam
-                display "leesregel-type-werknemer: " type-werknemer
-                display "leesregel-brutoloon: " brutoloon-in
-*>    -------------------------------------------------------------
+               display "leesregel-naam: " naam
+               display "leesregel-type-werknemer: " type-werknemer
+               display "leesregel-brutoloon: " brutoloon-in
+      *>   -------------------------------------------------------------
 
            move function numval(function trim(brutoloon-in)) to brutoloon
                display "brutoloon-in : " brutoloon-in
            move zeroes to brutoloon-in
                     display "brutoloon:" brutoloon
-*>    -------------------------------------------------------------
+      *>   -------------------------------------------------------------
            IF type-werknemer = "Bediende"
                COMPUTE RSZ = Brutoloon * 0.1307
                compute BRUTO-AFTER-RSZ = brutoloon - RSZ
@@ -148,7 +149,7 @@
                   
 
                     display " "
-*>    -------------------------------------------------------------
+      *>    ------------------------------------------------------------
            IF BRUTO-AFTER-RSZ <= 1318.33
                COMPUTE Voorheffing = BRUTO-AFTER-RSZ * 0.15
                ELSE
@@ -162,9 +163,9 @@
                    END-IF
                END-IF
            END-IF
-*>    -------------------------------------------------------------
+      *>   -------------------------------------------------------------
                    COMPUTE NettoLoon = BRUTO-AFTER-RSZ - Voorheffing
-*>    -------------------------------------------------------------
+      *>  -------------------------------------------------------------
 
                    MOVE Brutoloon TO brutoloon-out
                    MOVE RSZ TO rsz-out
@@ -184,7 +185,7 @@
                    display "RSZ-out" RSZ-out
                    display "Voorheffing-out" Voorheffing-out
                    display " " 
-    *>    -------------------------------------------------------------
+      *>  -------------------------------------------------------------
                    string
                    function trim(naam) delimited by size
                    "," delimited by size
@@ -202,7 +203,7 @@
 
                    write OUTPUT-LINE
                
-*>    -------------------------------------------------------------
+      *>  -------------------------------------------------------------
            DISPLAY "Status after WRITE output data: " WS-OUTPUT-STATUS
              IF WS-OUTPUT-STATUS NOT = "00"
                DISPLAY "Error writing data to output: " WS-OUTPUT-STATUS
@@ -220,7 +221,7 @@
                 END-READ
               END-PERFORM.
 
-*>    -------------------------------------------------------------
+      *>  -------------------------------------------------------------
            CLOSE input-file
                DISPLAY "Status after CLOSE input-file: " WS-INPUT-STATUS
            CLOSE output-file

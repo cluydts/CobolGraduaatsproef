@@ -4,8 +4,8 @@
        data division.
        working-storage section.
 
-           01 USER-INPUT pic x(30).
-           01 CSV-INPUT-FILE pic x(30).
+       01 USER-INPUT pic x(30).
+       01 CSV-INPUT-FILE pic x(30).
            
        procedure division.
            display "Which calculation do you want to do?"

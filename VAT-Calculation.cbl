@@ -3,47 +3,47 @@
        environment division.
        input-output section.
        file-control.
-             select INPUT-FILE assign to DYNAMIC-INFILE
-                 organization is line sequential
-                 file status is WS-INPUT-STATUS.
-             select OUTPUT-FILE assign to DYNAMIC-OUTFILE
-                 organization is line sequential
-                 file status is WS-OUTPUT-STATUS.
+           select INPUT-FILE assign to DYNAMIC-INFILE
+               organization is line sequential
+               file status is WS-INPUT-STATUS.
+           select OUTPUT-FILE assign to DYNAMIC-OUTFILE
+               organization is line sequential
+               file status is WS-OUTPUT-STATUS.
 
        data division.
    
        file section.
            fd INPUT-FILE.
-           01 LEESREGEL pic x(100).
+       01 LEESREGEL pic x(100).
            
            fd OUTPUT-FILE.
-           01 OUTPUT-REGEL pic x(100).
+       01 OUTPUT-REGEL pic x(100).
 
        working-storage section.
 
-           01  EOF-FLAG PIC X(1) VALUE "0".
-           01 DYNAMIC-INFILE pic x(30).
-           01 DYNAMIC-OUTFILE pic x(30).
-           
-           01 WS-INPUT-STATUS  PIC XX.            
-           01 WS-OUTPUT-STATUS PIC XX.
-           01 OUTPUT-PREFIX pic x(8) value "Output-".
+       01  EOF-FLAG PIC X(1) VALUE "0".
+       01 DYNAMIC-INFILE pic x(30).
+       01 DYNAMIC-OUTFILE pic x(30).
+       
+       01 WS-INPUT-STATUS  PIC XX.            
+       01 WS-OUTPUT-STATUS PIC XX.
+       01 OUTPUT-PREFIX pic x(8) value "Output-".
 
-           01 HEADER-1 PIC X(16) VALUE "Prijs,BTW-Tarief".
-           01 HEADER-2 pic x(25) value "BTW-bedrag,Totaal-bedrag".
-           01 FULL-HEADER pic x(42).
-           01 ORIGINELE-PRIJS pic 9(6)V99.
-           01 BTW-TARIEF pic 9(2).
-           01 BTW-BEDRAG pic 9(5)V99.
-           01 TOTAAL-BEDRAG pic 9(7)V99.
+       01 HEADER-1 PIC X(16) VALUE "Prijs,BTW-Tarief".
+       01 HEADER-2 pic x(25) value "BTW-bedrag,Totaal-bedrag".
+       01 FULL-HEADER pic x(42).
+       01 ORIGINELE-PRIJS pic 9(6)V99.
+       01 BTW-TARIEF pic 9(2).
+       01 BTW-BEDRAG pic 9(5)V99.
+       01 TOTAAL-BEDRAG pic 9(7)V99.
 
-           01 ORIGINELE-PRIJS-S pic X(8).
-           01 BTW-TARIEF-S pic x(2).
-           
-           01 DISPLAY-ORIGINELE-PRIJS pic Z(6).ZZ.
-           01 DISPLAY-BTW-TARIEF pic Z(2).
-           01 DISPLAY-BTW-BEDRAG pic Z(5).ZZ.
-           01 DISPLAY-TOTAAL-BEDRAG pic Z(7).ZZ.
+       01 ORIGINELE-PRIJS-S pic X(8).
+       01 BTW-TARIEF-S pic x(2).
+       
+       01 DISPLAY-ORIGINELE-PRIJS pic Z(6).ZZ.
+       01 DISPLAY-BTW-TARIEF pic Z(2).
+       01 DISPLAY-BTW-BEDRAG pic Z(5).ZZ.
+       01 DISPLAY-TOTAAL-BEDRAG pic Z(7).ZZ.
 
        linkage section.
            01 LINK-INPUT-FILE pic x(30).
@@ -55,7 +55,7 @@
                "," delimited by size
                HEADER-2 delimited by space
                into FULL-HEADER
-               end-string
+           end-string
            
            move LINK-INPUT-FILE to DYNAMIC-INFILE.
            string
@@ -93,7 +93,7 @@
                    DISPLAY "Error on 1st READ (header skip): " WS-INPUT-STATUS
                    GOBACK
            END-IF
-           *>    -------------------------------------------------------------
+      *>   -------------------------------------------------------------
 
             perform until EOF-FLAG = "1"
                read INPUT-FILE into LEESREGEL
@@ -127,7 +127,7 @@
            display "BTW-TARIEF: " BTW-TARIEF
            display " "
 
-           *>    -------------------------------------------------------------
+      *>    -------------------------------------------------------------
 
            evaluate BTW-TARIEF
             when 6
@@ -143,7 +143,7 @@
 
            compute TOTAAL-BEDRAG = ORIGINELE-PRIJS + BTW-BEDRAG
 
-           *>    -------------------------------------------------------------
+      *>    -------------------------------------------------------------
 
            move ORIGINELE-PRIJS to DISPLAY-ORIGINELE-PRIJS
            move BTW-TARIEF to DISPLAY-BTW-TARIEF
@@ -155,7 +155,7 @@
              display "DISPLAY-BTW-BEDRAG: " DISPLAY-BTW-BEDRAG
              display "DISPLAY-TOTAAL-BEDRAG: " DISPLAY-TOTAAL-BEDRAG
              display " "
-           *>    -------------------------------------------------------------
+      *>    -------------------------------------------------------------
               string
                   function trim(DISPLAY-ORIGINELE-PRIJS) delimited by size
                   "," delimited by size
@@ -173,7 +173,7 @@
                MOVE "1" TO EOF-FLAG *> Stop processing
            END-IF
                   display "OUTPUT-REGEL: " OUTPUT-REGEL
-           display "---------------------------------------------------"
+          
                        
                        move zeroes to DISPLAY-ORIGINELE-PRIJS 
                        move zeroes to DISPLAY-BTW-TARIEF 
@@ -182,7 +182,7 @@
            end-if
            end-read
            end-perform .
-           *>    -------------------------------------------------------------
+      *>    -------------------------------------------------------------
            close INPUT-FILE
                DISPLAY "Status after CLOSE input-file: " WS-INPUT-STATUS
            close OUTPUT-FILE

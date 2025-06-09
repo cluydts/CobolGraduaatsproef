@@ -10,45 +10,45 @@
                select output-file assign to DYNAMIC-OUTFILE
                    organization is line sequential
                    file status is WS-OUTPUT-STATUS.
-
+       
 
        DATA DIVISION.
     
        file section.
            FD input-file.
-            01 FILE-LINE pic x(100).
+       01 FILE-LINE pic x(100).
 
            FD output-file.
-           01 Output-Regel PIC X(100).
+       01 Output-Regel PIC X(100).
                    
        WORKING-STORAGE SECTION.
 
-           01  EOF-Flag PIC X(1) VALUE "0".
-           01 DYNAMIC-INFILE pic x(30).
-           01 DYNAMIC-OUTFILE pic x(30).
+       01  EOF-Flag PIC X(1) VALUE "0".
+       01  DYNAMIC-INFILE pic x(30).
+       01  DYNAMIC-OUTFILE pic x(30).
 
-           01 WS-INPUT-STATUS  PIC XX.            
-           01 WS-OUTPUT-STATUS PIC XX.
-           01 OUTPUT-PREFIX pic x(8) value "Output-".
+       01  WS-INPUT-STATUS  PIC XX.            
+       01  WS-OUTPUT-STATUS PIC XX.
+       01  OUTPUT-PREFIX pic x(8) value "Output-".
 
-           01 HEADER PIC X(21) value "Capital,Rate,Interest".
+       01  HEADER PIC X(21) value "Capital,Rate,Interest".
 
-           01  TOTAL-AMOUNT-S PIC 9(8)V99.
-           01  CAPITAL-S PIC x(10).
-           01  RATE-S PIC x(4).
-           01  Years-S PIC x(2).
+       01  TOTAL-AMOUNT-S PIC 9(8)V99.
+       01  CAPITAL-S PIC x(10).
+       01  RATE-S PIC x(4).
+       01  Years-S PIC x(2).
 
-           01  DISPLAY-CAPITAL-S PIC Z(9).ZZ.
-           01  DISPLAY-RATE-S PIC Z(2).ZZ.
-           01  DISPLAY-Years-S PIC Z(2).
-           01 DISPLAY-INTEREST-S PIC Z(8).ZZ.
-           01  INTEREST PIC 9(8)V99.
-           01  CAPITAL-N PIC 9(8)V99.
-           01  RATE-N PIC 9(2)V99.
-           01  Years-N PIC 9(2).
+       01  DISPLAY-CAPITAL-S PIC Z(9).ZZ.
+       01  DISPLAY-RATE-S PIC Z(2).ZZ.
+       01  DISPLAY-Years-S PIC Z(2).
+       01 DISPLAY-INTEREST-S PIC Z(8).ZZ.
+       01  INTEREST PIC 9(8)V99.
+       01  CAPITAL-N PIC 9(8)V99.
+       01  RATE-N PIC 9(2)V99.
+       01  Years-N PIC 9(2).
 
-              linkage section.
-              01 LINK-INPUT-FILE pic x(30).
+       linkage section.
+       01 LINK-INPUT-FILE pic x(30).
 
        PROCEDURE DIVISION using LINK-INPUT-FILE.
 
@@ -97,7 +97,7 @@
                   DISPLAY "I/O Error during data read: " WS-INPUT-STATUS
                    MOVE "1" TO EOF-FLAG *> Stop processing on error
                 ELSE
-           *>    -------------------------------------------------------------
+      *>   -------------------------------------------------------------
                UNSTRING function trim(FILE-LINE)
                DELIMITED BY ","
                          OR ", "
@@ -109,24 +109,24 @@
                 DISPLAY "Rate: " RATE-S
                 DISPLAY "Years: " Years-S
                 display " "
-           *>    -------------------------------------------------------------
+      *>   -------------------------------------------------------------
            MOVE function numval-c(function trim(CAPITAL-S)) TO CAPITAL-N
            MOVE function numval-c(function trim(RATE-S)) TO RATE-N
            MOVE function numval-c(function trim(Years-S)) TO Years-N
-           *>    -------------------------------------------------------------
+      *>   -------------------------------------------------------------
                    
               DISPLAY "Capital-N: " CAPITAL-N
                 DISPLAY "Rate-N: " RATE-N
                 DISPLAY "Years-N: " Years-N
                 DISPLAY " "
-           *>    -------------------------------------------------------------
+      *>   -------------------------------------------------------------
                COMPUTE INTEREST = (CAPITAL-N * RATE-N * Years-N)
 
                compute INTEREST = INTEREST /100
                COMPUTE TOTAL-AMOUNT-S = CAPITAL-N + INTEREST
            
                 DISPLAY "INTEREST: " INTEREST
-           *>    -------------------------------------------------------------
+      *>   -------------------------------------------------------------
 
                    move CAPITAL-S to DISPLAY-CAPITAL-S
                    move RATE-S to DISPLAY-RATE-S
@@ -136,7 +136,7 @@
                 DISPLAY "INTEREST-S: " DISPLAY-INTEREST-S
                 display " "
 
-           *>    -------------------------------------------------------------     
+      *>   -------------------------------------------------------------     
 
            string
                 function trim(DISPLAY-CAPITAL-S) delimited by size
@@ -154,21 +154,21 @@
 
                   write Output-Regel
 
-           *>    -------------------------------------------------------------            
+      *>  -------------------------------------------------------------            
                
-                DISPLAY "Status after WRITE output data: " WS-OUTPUT-STATUS
+            DISPLAY "Status after WRITE output data: " WS-OUTPUT-STATUS
              IF WS-OUTPUT-STATUS NOT = "00"
-               DISPLAY "Error writing data to output: " WS-OUTPUT-STATUS
-               MOVE "1" TO EOF-FLAG *> Stop processing
+           DISPLAY "Error writing data to output: " WS-OUTPUT-STATUS
+           MOVE "1" TO EOF-FLAG *> Stop processing
              END-IF
-               display "Output-regel: " output-regel
-                   
-                   move zeroes to DISPLAY-CAPITAL-S
-                   move zeroes to DISPLAY-RATE-S
-                   move zeroes to DISPLAY-Years-S
-                   move zeroes to DISPLAY-INTEREST-S
-               end-if
-                END-READ
+           display "Output-regel: " output-regel
+               
+               move zeroes to DISPLAY-CAPITAL-S
+               move zeroes to DISPLAY-RATE-S
+               move zeroes to DISPLAY-Years-S
+               move zeroes to DISPLAY-INTEREST-S
+           end-if
+            END-READ
               END-PERFORM.
 
            close input-file.
